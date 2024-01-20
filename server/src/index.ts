@@ -8,6 +8,8 @@ app.get('/', (req, res) => {
   res.send('Hello, Express with TypeScript!');
 });
 
+app.use('/goals', mainRoute);
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
