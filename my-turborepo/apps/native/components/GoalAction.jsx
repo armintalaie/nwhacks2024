@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, SafeAreaView} from
 import BottomModal from './BottomModal';
 import NewChallenge from './newChallenge';
 import Form from './Form';
+import JoinChallenge from './JoinChallenge';
 
 export default function GoalAction({ navigation }) {
   const [createModalVisible, setCreateModalVisible] = useState(false);
@@ -11,7 +12,7 @@ export default function GoalAction({ navigation }) {
   const inputs = [
     <TextInput 
       style={styles.input} 
-      placeholder="Enter Goal Name" 
+      placeholder="Enter Challenge Link" 
     />,
   ];
 
@@ -51,19 +52,18 @@ export default function GoalAction({ navigation }) {
         setModalVisible={setCreateModalVisible}
         modalHeight={'70%'}
       >
-        <NewChallenge />
+        <NewChallenge navigation={navigation} onClose={() => setCreateModalVisible(false)}/>
       </BottomModal>
 
       {/* Join Modal */}
       <BottomModal
         modalVisible={joinModalVisibile} 
         setModalVisible={setJoinModalVisible}
-        modalHeight={'30%'}
+        modalHeight={'40%'}
       >
-      <Form
-        title="Join a challenge"
-        inputs={inputs}
-        onSubmit={handleSubmit}
+      <JoinChallenge
+        navigation={navigation}
+        onClose={() => setJoinModalVisible(false)}
       />
       </BottomModal>
     </View>
