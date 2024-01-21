@@ -1,44 +1,61 @@
-import React, { useRef, useState } from "react";
-import { Animated, StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import ChallengeCard from "./ChallengeCard";
 import Tab from "./Tab";
 import { PanResponder } from "react-native";
+import { Challenge, DayLog, User } from "../util/types";
+import { MOCK } from "../util/mock";
 
-const users = [
-  {
-    id: "1",
-    Name: "Jacob",
-    Image:
-      "https://images.unsplash.com/photo-1535351221729-a95caae13678?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    challenge: {
-      Goal: "Go to the gym",
-    },
-  },
-  {
-    id: "2",
-    Name: "Emily",
-    Image:
-      "https://images.unsplash.com/photo-1535351221729-a95caae13678?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    challenge: {
-      Goal: "Read a book",
-    },
-  },
-  {
-    id: "3",
-    Name: "Josh",
-    Image:
-      "https://images.unsplash.com/photo-1535351221729-a95caae13678?q=80&w=2342&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    challenge: {
-      Goal: "Go to the gym",
-    },
-  },
-  
-];
-
-export default function Challenge() {
+export default function ChallengeTab() {
+  const [users, setUsers] = useState<any[] | null>(null);
   const [userIndex, setUserIndex] = useState(0);
   const [nextUserIndex, setNextUserIndex] = useState(1);
   const flipAnim = useRef(new Animated.Value(0)).current;
+  const [dayLogs, setDayLogs] = useState<DayLog[]>([]);
+  const [challenge, setChallenge] = useState<Challenge | null>(null);
+  async function getUsers() {
+    const getppl = makeUserChallenge(MOCK.users)
+     setUsers(getppl)
+  }
+
+  function getChallenge() {
+    return setChallenge(MOCK.challenge);
+  }
+
+  function getDayLogs() {
+    setDayLogs(MOCK.days);
+  }
+
+  async function setup() {
+    await getDayLogs();
+    await getChallenge();
+
+  }
+
+  useEffect(() => {
+    setup();
+  }
+  , []);
+
+  useEffect(() => {
+     getUsers();
+
+  }, [dayLogs]);
+
+
+  function makeUserChallenge(cusers) {
+    const todayLog = dayLogs[dayLogs.length - 1];
+    const augmentedUsers = cusers.map((user) => {
+      return {
+        ...user,
+        ...todayLog.users[user.id],
+        goal: "Run 5km",
+      };
+    });
+
+    return augmentedUsers;
+  }
+
 
   const flipCard = () => {
     Animated.timing(flipAnim, {
@@ -61,8 +78,34 @@ export default function Challenge() {
     },
   });
 
+  
+
+  if (!challenge || !users || !dayLogs) {
+    return null;
+  }
+
+  function calculateProgress() {
+    if (dayLogs.length === 0) {
+      return 0;
+    }
+
+    if (!challenge) {
+      return 0;
+    }
+    const startDate = dayLogs[0].day;
+    const today = dayLogs[dayLogs.length - 1].day;
+    const totalDays = Math.floor(
+      (challenge.deadline.getTime() - startDate.getTime() ) / (1000 * 3600 * 24) + 1
+    );
+    const done = Math.floor(
+      (today.getTime() - startDate.getTime()) / (1000 * 3600 * 24) + 1
+    );
+    return ((done / totalDays) * 100).toFixed(2);
+    }
+
   return (
-    <Tab title="Current Challenge" styles={styles}>
+    <Tab title={challenge.name} styles={styles}>
+  
       <View style={styles.main}>
         <Animated.View {...panResponder.panHandlers} style={{ width: "100%" }}>
           <Animated.View
@@ -105,12 +148,11 @@ export default function Challenge() {
               },
             ]}
           >
-            <ChallengeCard user={users[nextUserIndex]} />
+            {/* <ChallengeCard user={users[nextUserIndex]} /> */}
           </Animated.View>
         </Animated.View>
         <View style={styles.actions}>
-          <View style={styles.circular}></View>
-        </View>
+<View style={[styles.circular, { width: `${calculateProgress()}%` as any }]}></View></View>
       </View>
     </Tab>
   );

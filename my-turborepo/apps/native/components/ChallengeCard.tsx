@@ -2,23 +2,23 @@
 
 import { StyleSheet, View, Text, Image } from "react-native";
 import Button from "./Button";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 export interface ChallengeCardProps {
     user: {
         id: string;
-        Name: string;
-        Image: string;
-        challenge: {
-            Goal: string;
-        };
+        name: string;
+        image: string;
+        // challenge: {
+        //     Goal: string;
+        // };
     };
     
 }
 
 export default function ChallengeCard({ user }: ChallengeCardProps) {
-
-    // const status = 
-
+    const context = useContext(AuthContext);
 
     return (
         <View style={styles.container}>
@@ -26,26 +26,34 @@ export default function ChallengeCard({ user }: ChallengeCardProps) {
             <Image
                 style={styles.image}
                 source={{
-                    uri: user.Image,
+                    uri: user.image,
                 }}
 
             />
 
 <View style={styles.group}>
-            <Text style={styles.header}>{user.Name}</Text>
+            <Text style={styles.header}>{user.name}</Text>
             </View>
-            {Object.entries(user.challenge).map(([key, value]) => (
+            {/* {Object.entries(user.challenge).map(([key, value]) => (
              <View style={styles.group}>
             <Text style={styles.header}>{key}</Text>
             <Text style={styles.content}>{value}</Text>
             </View>
-            ))}
+            ))} */}
             </View>
 
 <View style={styles.actions}>
+    {}
+{context?.user.id.toString() === user.id.toString() && (
   <Button title="Done" onPress={() => alert("Challenge created!")} />
-  <Button title="Verify" onPress={() => alert("Challenge created!")} />
+)}
+
+{context?.user.id.toString() !== user.id.toString() &&(
+    <>
+  {/* <Button title="Verify" onPress={() => alert("Challenge created!")} /> */}
   <Button title="Ping" onPress={() => alert("Challenge created!")} />
+  </>
+)}
   </View>
 
 
