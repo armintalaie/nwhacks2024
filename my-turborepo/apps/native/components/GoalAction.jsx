@@ -63,7 +63,10 @@ export default function GoalAction({ navigation }) {
       >
       <JoinChallenge
         navigation={navigation}
-        onClose={() => setJoinModalVisible(false)}
+        onClose={() => {
+          console.log("Hello");
+          setJoinModalVisible(false);
+        }}
       />
       </BottomModal>
     </View>
@@ -74,11 +77,11 @@ export default function GoalAction({ navigation }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff', 
+    backgroundColor: '#6042f5', 
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#6042f5',
     alignItems: 'center',
     justifyContent: 'center-start',
     padding: 20,
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
   header: {
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#7B61FF',
+    color: 'white',
     fontSize: 24,
   },
   modalText: {
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   actionWidget: {
-    backgroundColor: '#E3EAFD',
+    backgroundColor: 'white',
     borderRadius: 10,
     height: 150,
     width: '100%',

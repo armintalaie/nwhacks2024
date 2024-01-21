@@ -19,9 +19,11 @@ import {
 import Input from "./Input";
 import Form from "./Form";
 import { useState } from "react";
+import Goal from "./Goal";
 
-export default function ({ navigation }) {
+export default function ({ route, navigation }) {
   const [inputValue, setInputValue] = useState("");
+  const { challengeName, deadline, buyIn } = route.params || {};
 
   const handleInputChange = (text) => {
     setInputValue(text);
@@ -41,14 +43,14 @@ export default function ({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.challengeWidget}>
-        <Text style={styles.goalTitle}>Pending Challenge</Text>
+        <Text style={styles.goalTitle}>{challengeName}</Text>
         <View style={styles.challengeInfo}>
           <FontAwesomeIcon
             icon={faPiggyBank}
             style={styles.iconStyle}
             size={24}
           />
-          <Text>$20.50 buy-in</Text>
+          <Text>${buyIn} buy-in</Text>
         </View>
         <View style={styles.challengeInfo}>
           <FontAwesomeIcon icon={faBell} style={styles.iconStyle} size={24} />
@@ -60,10 +62,10 @@ export default function ({ navigation }) {
             style={styles.iconStyle}
             size={24}
           />
-          <Text>Until October 26th, 2023</Text>
+          <Text>Until {deadline}</Text>
         </View>
       </View>
-
+      <Goal props={"Goal"}></Goal>
       <View style={styles.goal}>
         <View style={styles.circleFrame}>
           <Image source={require("../assets/logo.png")} style={styles.avatar} />

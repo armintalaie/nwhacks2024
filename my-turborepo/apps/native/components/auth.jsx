@@ -47,8 +47,8 @@ const Auth = ({ navigation }) => {
        
         {/*<Image source={require('../assets/logo.png')} style={styles.imageBox} />*/}
         
-        
-        <Text style={styles.subHeader}>Register</Text>
+        {/*
+          <Text style={styles.subHeader}>Register</Text>
         <TextInput
           style={styles.input}
           placeholder="First Name"
@@ -68,6 +68,8 @@ const Auth = ({ navigation }) => {
           value={password}
           secureTextEntry
         />
+        */}
+        
         <TouchableOpacity style={styles.registerButton} onPress={handleLogin}>
           <Text style={styles.buttonText}>Register</Text>
         </TouchableOpacity>
@@ -79,12 +81,14 @@ const Auth = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff', 
+    backgroundColor: '#6042f5', 
   },
   header: {
     fontSize: 24,
     fontWeight: 500,
     paddingBottom: 40,
+    fontWeight: '700',
+    color: 'white',
   },
   subHeader: {
     fontSize: 20,
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
   registerButton: {
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#C2D3FB', // Example color
+    backgroundColor: 'white', // Example color
     padding: 15,
     borderRadius: 10,
     marginTop: 12,
