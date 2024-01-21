@@ -50,7 +50,7 @@ const daySchema = new mongoose.Schema({
   goalid: { type: mongoose.Schema.Types.String, required: true },
   user: { type: mongoose.Schema.Types.String, required: true },
   datetime: { type: mongoose.Schema.Types.Date, required: true },
-  photo: { type: [mongoose.Schema.Types.String], required: true },
+  photo: { type: mongoose.Schema.Types.String, required: true },
 });
 
 const Goal = mongoose.model('Goal', goalSchema);
