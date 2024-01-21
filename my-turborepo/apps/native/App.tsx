@@ -5,7 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import GoalAction from './components/GoalAction';
 import ChallengeTab from './components/Challenge';
 import Auth from './components/Auth';
-import { AuthProvider } from './context/AuthProvider';import JoinScreen from './components/JoinScreen';
+import { AuthProvider } from './context/AuthProvider';
+import JoinScreen from './components/JoinScreen';
 
 
 const Stack = createNativeStackNavigator();
