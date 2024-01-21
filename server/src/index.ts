@@ -7,7 +7,11 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-  res.send("Hello, Express with TypeScript!");
+  res.json({ status: "OK" });
+});
+
+app.get("/status", (req, res) => {
+  res.json({ status: "OK" });
 });
 
 app.use("/goals", goals);
