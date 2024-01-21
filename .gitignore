@@ -1,2 +1,9 @@
+### server.gitignore
+
 .DS_Store
-node_modules
+.env
+fir*.json
+google-services.json
+
+uploads/
+node_modules/

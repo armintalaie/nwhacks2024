@@ -16,6 +16,7 @@ import AccountScreen from './src/screens/AccountScreen';
 import {AuthContextProvider} from './src/context/AuthContext';
 import { enableScreens } from 'react-native-screens';
 
+
 enableScreens();
 
 const Stack = createNativeStackNavigator();
