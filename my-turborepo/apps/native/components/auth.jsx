@@ -1,6 +1,6 @@
 // src/components/Auth.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 const Auth = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -8,7 +8,9 @@ const Auth = ({ navigation }) => {
   const [password, setPassword] = useState('');
   
   const handleLogin = async () => {
+    /*
     try {
+      
       const response = await fetch('backendUrl/users', {
         method: 'POST',
         headers: {
@@ -33,44 +35,60 @@ const Auth = ({ navigation }) => {
     } catch (error) {
       console.error('Network error:', error);
     }
+    */
+    navigation.navigate('GoalAction');
   };
 
   return (
-    
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome to PayPals!</Text>
+    <SafeAreaView style={styles.safeArea}>
       
-      {/*<Image source={require('../assets/logo.png')} style={styles.imageBox} />*/}
-      <TextInput
-        style={styles.input}
-        placeholder="First Name"
-        onChangeText={setUsername}
-        value={name}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        onChangeText={setUsername}
-        value={username}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry
-      />
-      <TouchableOpacity style={styles.registerButton} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.container}>
+        <Text style={styles.header}>Welcome to PayPals!</Text>
+       
+        {/*<Image source={require('../assets/logo.png')} style={styles.imageBox} />*/}
+        
+        
+        <Text style={styles.subHeader}>Register</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="First Name"
+          onChangeText={setName}
+          value={name}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          onChangeText={setUsername}
+          value={username}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry
+        />
+        <TouchableOpacity style={styles.registerButton} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff', 
+  },
   header: {
     fontSize: 24,
     fontWeight: 500,
+    paddingBottom: 40,
+  },
+  subHeader: {
+    fontSize: 20,
+    fontWeight: '500',
     paddingBottom: 20,
   },
   container: {
@@ -84,7 +102,7 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 12,
     borderWidth: 1,
-    padding: 10,
+    padding: 8,
     borderRadius: 10,
   },
   imageBox: {
