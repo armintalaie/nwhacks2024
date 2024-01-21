@@ -1,10 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  View,
+} from "react-native";
 import ChallengeCard from "./ChallengeCard";
 import Tab from "./Tab";
 import { PanResponder } from "react-native";
 import { Challenge, DayLog, User } from "../util/types";
 import { MOCK } from "../util/mock";
+import Button from "./Button";
 
 export default function ChallengeTab() {
   const [users, setUsers] = useState<any[] | null>(null);
@@ -14,8 +19,8 @@ export default function ChallengeTab() {
   const [dayLogs, setDayLogs] = useState<DayLog[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   async function getUsers() {
-    const getppl = makeUserChallenge(MOCK.users)
-     setUsers(getppl)
+    const getppl = makeUserChallenge(MOCK.users);
+    setUsers(getppl);
   }
 
   function getChallenge() {
@@ -29,19 +34,15 @@ export default function ChallengeTab() {
   async function setup() {
     await getDayLogs();
     await getChallenge();
-
   }
 
   useEffect(() => {
     setup();
-  }
-  , []);
+  }, []);
 
   useEffect(() => {
-     getUsers();
-
+    getUsers();
   }, [dayLogs]);
-
 
   function makeUserChallenge(cusers) {
     const todayLog = dayLogs[dayLogs.length - 1];
@@ -55,7 +56,6 @@ export default function ChallengeTab() {
 
     return augmentedUsers;
   }
-
 
   const flipCard = () => {
     Animated.timing(flipAnim, {
@@ -78,8 +78,6 @@ export default function ChallengeTab() {
     },
   });
 
-  
-
   if (!challenge || !users || !dayLogs) {
     return null;
   }
@@ -95,17 +93,18 @@ export default function ChallengeTab() {
     const startDate = dayLogs[0].day;
     const today = dayLogs[dayLogs.length - 1].day;
     const totalDays = Math.floor(
-      (challenge.deadline.getTime() - startDate.getTime() ) / (1000 * 3600 * 24) + 1
+      (challenge.deadline.getTime() - startDate.getTime()) /
+        (1000 * 3600 * 24) +
+        1
     );
     const done = Math.floor(
       (today.getTime() - startDate.getTime()) / (1000 * 3600 * 24) + 1
     );
     return ((done / totalDays) * 100).toFixed(2);
-    }
+  }
 
   return (
     <Tab title={challenge.name} styles={styles}>
-  
       <View style={styles.main}>
         <Animated.View {...panResponder.panHandlers} style={{ width: "100%" }}>
           <Animated.View
@@ -148,11 +147,17 @@ export default function ChallengeTab() {
               },
             ]}
           >
-            {/* <ChallengeCard user={users[nextUserIndex]} /> */}
+            <ChallengeCard user={users[nextUserIndex]} />
           </Animated.View>
         </Animated.View>
         <View style={styles.actions}>
-<View style={[styles.circular, { width: `${calculateProgress()}%` as any }]}></View></View>
+          <View
+            style={[
+              styles.circular,
+              { width: `${calculateProgress()}%` as any },
+            ]}
+          ></View>
+        </View>
       </View>
     </Tab>
   );
@@ -192,10 +197,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backfaceVisibility: "hidden",
+    zIndex: 20,
   },
   flipCardBack: {
     position: "absolute",
     backfaceVisibility: "hidden",
+    zIndex: 10,
     top: 0,
   },
 
@@ -205,16 +212,17 @@ const styles = StyleSheet.create({
     height: 600, // Increase the height
     maxHeight: "80%", // But don't exceed maximum height of 90%
     backgroundColor: "#f0f0f0", // White color
-    marginBottom: 20,
+    marginBottom: 0,
     alignSelf: "center", // Center the card
     elevation: 5, // Add elevation for Android
     shadowColor: "#fff", // Add shadow for iOS
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.05,
     shadowRadius: 5.84,
-    borderRadius: 30,
-    borderWidth: 2, // Add border width
+    borderRadius: 20,
+    borderWidth: 3, // Add border width
     borderColor: "#171717", // Add border color
+    padding: 0,
   },
 
   main: {
