@@ -22,7 +22,7 @@ export default function NewChallenge({navigation, onClose}: NewChallengeProps) {
         console.log("Buy-in: ", buyIn);
         alert("Challenge created!");
         onClose();
-        navigation.navigate('Challenge');
+        navigation.navigate('JoinScreen');
 /*
         try {
             console.log("Submitted");
