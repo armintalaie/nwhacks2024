@@ -31,10 +31,10 @@ export default function Form({ title, inputs, onSubmit }: FormProps) {
 const styles = StyleSheet.create({
     form: {
         width: '100%',
-        alignItems: 'center',
+        //alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 12,
-        paddingHorizontal: 32,
+        paddingHorizontal: 0,
         borderRadius: 4,
         
     },

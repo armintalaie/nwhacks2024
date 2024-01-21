@@ -19,7 +19,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-native": "0.73.1",
-    "react-native-web": "^0.19.10"
+    "react-native-camera": "^4.2.1",
+    "react-native-camera-kit": "^13.0.0",
+    "react-native-web": "^0.19.10",
+    "expo-camera": "~13.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",
