@@ -50,7 +50,7 @@ const daySchema = new mongoose.Schema({
   goalid: { type: mongoose.Schema.Types.String, required: true },
   user: { type: mongoose.Schema.Types.String, required: true },
   datetime: { type: mongoose.Schema.Types.Date, required: true },
-  photo: { type: [mongoose.Schema.Types.String], required: true },
+  photo: { type: mongoose.Schema.Types.String, required: true },
 });
 
 const Goal = mongoose.model('Goal', goalSchema);
@@ -155,7 +155,7 @@ http://localhost:3000/goals/<goalid>/days \
 -F 'user=<userid>' \
 -F 'photo=@<filepath.type>'
 */
-router.post('/:goalid/days', upload.single('photo'),async (req: Request, res: Response) => {
+router.post('/:goalid/days', upload.single('photo'), async (req: Request, res: Response) => {
   try {
     // TODO: validate user is allowed to uplaod to this goal
     // don't let a user upload a photo again...?
@@ -182,6 +182,21 @@ router.post('/:goalid/days', upload.single('photo'),async (req: Request, res: Re
   }
 });
 
-router.post
+/*
+* curl -X GET \
+* http://localhost:3000/goals/<goalid>/days
+*/
+router.get('/:goalid/days', async (req: Request, res: Response) => {
+  try {
+    const { goalid } = req.params;
+
+    const days = await Day.find({ goalid });
+
+    res.status(200).json(days);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 export default router;
