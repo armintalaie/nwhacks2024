@@ -2,8 +2,8 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-export default function Goal({ props }) {
-  const { goal } = props;
+export default function Goal({ goalName }) {
+  const goal = goalName;
   return (
     <View style={styles.goal}>
       {/*

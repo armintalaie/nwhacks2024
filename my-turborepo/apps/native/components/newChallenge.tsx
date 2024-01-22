@@ -23,9 +23,15 @@ export default function NewChallenge({
     console.log("Challenge Name: ", challengeName);
     console.log("Deadline: ", deadline);
     console.log("Buy-in: ", buyIn);
+    const createChallenge = true;
     alert("Challenge created!");
     onClose();
-    navigation.navigate("JoinScreen", { challengeName, deadline, buyIn });
+    navigation.navigate("JoinScreen", {
+      challengeName,
+      deadline,
+      buyIn,
+      createChallenge,
+    });
     /*
         try {
             console.log("Submitted");
@@ -44,7 +50,13 @@ export default function NewChallenge({
             
             if (response.ok) {
               const jsonResponse = await response.json();
-              // TODO: Perform actions based on response 
+              const goalId = jsonResponse.goalId;
+              navigation.navigate("JoinScreen", {
+                challengeName,
+                deadline,
+                buyIn,
+                createChallenge,
+              });
             } else {
               // TODO: Handle HTTP Errors 
               console.error('Server error:', response.status);

@@ -1,0 +1,1 @@
+const ChallengeContext = React.createContext();

@@ -1,3 +1,5 @@
+// Import statements
+import React, { useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -17,19 +19,27 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Input from "./Input";
-import Form from "./Form";
-import { useState } from "react";
 import Goal from "./Goal";
 
 export default function ({ route, navigation }) {
   const [inputValue, setInputValue] = useState("");
-  const { challengeName, deadline, buyIn } = route.params || {};
+  const [goalsData, setGoalsData] = useState([]); // Initial goals data
+
+  const { challengeName, deadline, buyIn, goalId } = route.params || {};
 
   const handleInputChange = (text) => {
     setInputValue(text);
   };
+
+  const handleAddGoal = () => {
+    setGoalsData([...goalsData, { goalName: inputValue }]);
+    setInputValue(""); // Clear the input field
+    navigation.navigate("Challenge");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      {/* Header Container */}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.pop()}>
           <FontAwesomeIcon icon={faTimes} size={24} color="black" />
@@ -42,6 +52,11 @@ export default function ({ route, navigation }) {
           <FontAwesomeIcon icon={faSyncAlt} size={24} color="black" />
         </TouchableOpacity>
       </View>
+
+      {/* Invite Link */}
+      <View style={styles.copyLink}></View>
+
+      {/* Challenge Widget */}
       <View style={styles.challengeWidget}>
         <Text style={styles.goalTitle}>{challengeName}</Text>
         <View style={styles.challengeInfo}>
@@ -65,65 +80,44 @@ export default function ({ route, navigation }) {
           <Text>Until {deadline}</Text>
         </View>
       </View>
-      <Goal props={"Goal"}></Goal>
-      <View style={styles.goal}>
-        <View style={styles.circleFrame}>
-          <Image source={require("../assets/logo.png")} style={styles.avatar} />
-        </View>
 
-        <View style={styles.divider} />
+      {/* Display Goals */}
+      {goalsData.map((goal, index) => (
+        <Goal key={index} goalName={goal.goalName} />
+      ))}
 
-        <View style={styles.friendWidget}>
-          <Text style={styles.header}>Armin's Goal</Text>
-          <Text style={styles.goalTitle}>Go to the gym everyday</Text>
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.circleCheckFrame}>
-          <FontAwesomeIcon icon={faCheck} size={24} color="white" />
-        </View>
-      </View>
-
+      {/* Goal Input Column */}
       <View style={styles.goalInputColumn}>
-        <View>
-          <Input
-            onChangeText={handleInputChange}
-            value={inputValue}
-            placeholder="Enter your goal"
-            title="Create a goal"
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title={"Submit "}
-            onPress={() => navigation.navigate("Challenge")}
-          />
-        </View>
+        <Input
+          onChangeText={handleInputChange}
+          value={inputValue}
+          placeholder="Enter your goal"
+          title="Create a goal"
+        />
+        <Button title={"Submit"} onPress={() => handleAddGoal()} />
       </View>
     </SafeAreaView>
   );
 }
 
+// StyleSheet
 const styles = StyleSheet.create({
+  // Add your styles here
   container: {
     backgroundColor: "#6042f5",
     height: "100%",
   },
-  friendWidget: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    maxWidth: "70%",
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   challengeWidget: {
     padding: 16,
     marginHorizontal: 16,
     marginBottom: 20,
-    // width: '100%',
-    // height: 150,
     borderWidth: 1,
     borderRadius: 20,
     backgroundColor: "#fff",
@@ -132,27 +126,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 4,
-  },
-  button: {
-    marginHorizontal: 8,
-    paddingHorizontal: 8,
-    paddingTop: 10,
-  },
-  header: {
-    fontSize: 14,
-    color: "grey",
-    fontWeight: "400",
-  },
-  goal: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginHorizontal: 16,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderRadius: 20,
-    backgroundColor: "#fff",
-    padding: 16,
   },
   goalInputColumn: {
     flexDirection: "column",
@@ -165,12 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 16,
   },
-  goalRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 2,
-    width: "100%",
-  },
   goalTitle: {
     fontSize: 18,
     fontWeight: "600",
@@ -180,50 +147,7 @@ const styles = StyleSheet.create({
   iconStyle: {
     marginRight: 8,
   },
-  circleFrame: {
-    width: 65,
-    height: 65,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-  },
-  circleCheckFrame: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: "green",
-    backgroundColor: "green",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-  },
-  avatar: {
+  copyLink: {
     width: "100%",
-    height: "100%",
-    resizeMode: "cover",
-  },
-  check: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    height: 65,
-    width: 65,
-    borderRadius: 20,
-  },
-  divider: {
-    height: "100%",
-    backgroundColor: "black",
-    width: 0.5,
-  },
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
   },
 });
